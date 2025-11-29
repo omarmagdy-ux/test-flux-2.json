@@ -1,12 +1,35 @@
 # clean base image containing only comfyui, comfy-cli and comfyui-manager
 FROM runpod/worker-comfyui:5.5.0-base
 
-# install custom nodes into comfyui
+# install GGUF custom node for ComfyUI
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/city96/ComfyUI-GGUF.git && \
+    cd ComfyUI-GGUF && \
+    pip install -r requirements.txt
 
-# download models into comfyui
-RUN comfy model download --url https://huggingface.co/Comfy-Org/flux2-dev/blob/main/split_files/vae/flux2-vae.safetensors --relative-path models/vae --filename flux2-vae.safetensors
-RUN comfy model download --url https://huggingface.co/Comfy-Org/flux2-dev/blob/main/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors --relative-path models/diffusion_models --filename flux2_dev_fp8mixed.safetensors
-RUN comfy model download --url https://huggingface.co/Comfy-Org/flux2-dev/blob/main/split_files/text_encoders/mistral_3_small_flux2_fp8.safetensors --relative-path models/clip --filename mistral_3_small_flux2_fp8.safetensors
+# download FLUX Krea GGUF model
+RUN comfy model download \
+    --url "https://huggingface.co/QuantStack/FLUX.1-Krea-dev-GGUF/resolve/main/flux1-krea-dev-Q8_0.gguf" \
+    --relative-path models/unet \
+    --filename flux1-krea-fp8.gguf
+
+# download FLUX VAE
+RUN comfy model download \
+    --url "https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/ae.safetensors" \
+    --relative-path models/vae \
+    --filename ae.safetensors
+
+# download CLIP-L
+RUN comfy model download \
+    --url "https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/clip_l.safetensors" \
+    --relative-path models/clip \
+    --filename clip_l.safetensors
+
+# download T5-XXL FP8
+RUN comfy model download \
+    --url "https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp8_e4m3fn.safetensors" \
+    --relative-path models/clip \
+    --filename t5xxl_fp8_e4m3fn.safetensors
 
 # copy all input data (like images or videos) into comfyui (uncomment and adjust if needed)
 # COPY input/ /comfyui/input/
