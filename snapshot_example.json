@@ -1,0 +1,9 @@
+{
+  "comfyui": "latest",
+  "git_custom_nodes": {
+    "https://github.com/city96/ComfyUI-GGUF": {
+      "hash": "main",
+      "disabled": false
+    }
+  }
+}
