@@ -6,7 +6,7 @@ RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/city96/ComfyUI-GGUF.git && \
     cd ComfyUI-GGUF && \
     pip install -r requirements.txt
-
+ 
 # Create workspace models folder
 RUN mkdir -p /comfyui/workspace/models/unet \
     /comfyui/workspace/models/vae \
