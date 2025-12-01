@@ -1,5 +1,5 @@
 # Base image with comfyui, comfy-cli, and comfyui-manager
-FROM runpod/worker-comfyui:0.3.75-base
+FROM runpod/worker-comfyui:0.3.75
 
 # install custom nodes using comfy-cli
 RUN comfy-node-install ComfyUI-GGUF
